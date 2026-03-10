@@ -97,68 +97,15 @@ export const login = async (req, res) => {
     }
 };
 
-// export const customerLogin = async (req, res) => {
-//     try {
-//         const { phoneNumber, name } = req.body;
-
-//         if (!phoneNumber) {
-//             return res.status(400).json({ message: 'Phone number is required' });
-//         }
-
-//         // Find or create customer by phone number
-//         let customer = await User.findOne({ phoneNumber, role: 'customer' });
-
-//         if (!customer) {
-//             // Create new customer account
-//             customer = new User({
-//                 phoneNumber,
-//                 role: 'customer',
-//                 name: name || `Customer ${phoneNumber.slice(-4)}`, // Use provided name or default
-//                 email: `customer_${phoneNumber}@restaurant.local`, // Default email
-//                 password: 'customer123', // Default password (will be hashed)
-//             });
-
-//             await customer.save();
-//         } else if (name && name.trim()) {
-//             // Update name if provided and different from current
-//             if (customer.name !== name.trim()) {
-//                 customer.name = name.trim();
-//                 await customer.save();
-//             }
-//         }
-
-//         // Generate JWT token for customer
-//         const token = jwt.sign(
-//             { id: customer._id, phoneNumber: customer.phoneNumber, role: customer.role },
-//             process.env.JWT_SECRET,
-//             { expiresIn: '7d' }
-//         );
-
-//         res.status(200).json({
-//             message: 'Login successful',
-//             token,
-//             customerId: customer._id,
-//             name: customer.name,
-//             phoneNumber: customer.phoneNumber,
-//         });
-//     } catch (error) {
-//         console.error('Customer login error:', error);
-//         res.status(500).json({ message: 'Login failed', error: error.message });
-//     }
-// };
 
 export const customerLogin = async (req, res) => {
     try {
         let { phoneNumber, name } = req.body;
-
-        if (!phoneNumber) {
-            return res.status(400).json({ message: 'Phone number is required' });
-        }
+        if (!phoneNumber) return res.status(400).json({ message: 'Phone number required' });
 
         phoneNumber = String(phoneNumber);
 
         let customer = await User.findOne({ phoneNumber, role: 'customer' });
-
         if (!customer) {
             customer = new User({
                 phoneNumber,
@@ -167,7 +114,6 @@ export const customerLogin = async (req, res) => {
                 email: `customer_${phoneNumber}@restaurant.local`,
                 password: 'customer123',
             });
-
             await customer.save();
         }
 
