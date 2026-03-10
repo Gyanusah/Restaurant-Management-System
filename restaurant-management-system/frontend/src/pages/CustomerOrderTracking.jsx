@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import useOrderTracking from '../hooks/useOrderTracking';
+import useOrderTracking from "../hooks/useOrderTracking.js";
 import { getOrder } from '../services/orderService';
 
 const statusStages = [
