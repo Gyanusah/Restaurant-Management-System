@@ -41,7 +41,7 @@ app.use(cors({
 
         // Allow specific origins
         if (origin === 'http://localhost:3000' ||
-            origin === 'https://restaurant-management-system-82cn.vercel.app/' ||
+            origin === 'https://restaurant-management-system-82cn.vercel.app' ||
             origin.startsWith('http://localhost:') ||
             origin.startsWith('http://127.0.0.1:')) {
             console.log('Origin allowed:', origin);

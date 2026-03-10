@@ -75,7 +75,7 @@ export const getOrderById = (id) => {
 
 export const customerLogin = async (credentials) => {
   try {
-    const response = await API.post('/auth/customer/login', credentials);
+    const response = await API.post('/api/auth/customer/login', credentials);
     return response.data;
   } catch (error) {
     console.error('Customer login error:', error);
