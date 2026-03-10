@@ -13,7 +13,7 @@ const statusStages = [
 const CustomerOrderTracking = () => {
   const { orderId } = useParams();
   const [order, setOrder] = useState(null);
-  const { orderStatus, isConnected } = useOrderTracking(order?.table?._id);
+  const { orderStatus, isConnected } = useOrderTracking(order?.table?._id, 'customer');
 
   useEffect(() => {
     const fetchOrder = async () => {
