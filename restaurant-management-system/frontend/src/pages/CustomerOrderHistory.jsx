@@ -45,7 +45,16 @@ const CustomerOrderHistory = () => {
   }, [searchParams, navigate]);
 
   const setupSocket = (tableNum) => {
-    const socket = io(import.meta.env.VITE_API_BASE_URL) || ('http://localhost:5000');
+    const socketUrl = import.meta.env.VITE_API_BASE_URL 
+      ? import.meta.env.VITE_API_BASE_URL.replace('/api', '') 
+      : 'http://localhost:5000';
+    
+    console.log('🔌 Connecting to socket at:', socketUrl);
+    const socket = io(socketUrl, {
+      transports: ['websocket', 'polling'],
+      timeout: 10000,
+      forceNew: true
+    });
     
     socket.on('connect', () => {
       console.log('Customer connected to socket server');

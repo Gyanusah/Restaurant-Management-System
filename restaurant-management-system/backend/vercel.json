@@ -6,15 +6,35 @@
             "use": "@vercel/node",
             "config": {
                 "includeFiles": [
-                    "dist/**"
+                    "dist/**",
+                    "models/**",
+                    "controllers/**",
+                    "routes/**",
+                    "middleware/**",
+                    "config/**",
+                    "seeds/**",
+                    "socket.js"
                 ]
             }
         }
     ],
     "routes": [
         {
+            "src": "/api/(.*)",
+            "dest": "server.js"
+        },
+        {
+            "src": "/socket.io/(.*)",
+            "dest": "server.js"
+        },
+        {
             "src": "/(.*)",
             "dest": "server.js"
         }
-    ]
+    ],
+    "functions": {
+        "server.js": {
+            "maxDuration": 30
+        }
+    }
 }
