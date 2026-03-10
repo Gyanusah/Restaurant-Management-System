@@ -9,15 +9,28 @@ const useOrderTrackingInline = (tableId, userRole) => {
   const [orderStatus, setOrderStatus] = useState(null);
   const [isConnected, setIsConnected] = useState(false);
 
-  useEffect(() => {
-    const socketUrl = process.env.NODE_ENV === 'production' 
-      ? window.location.origin 
-      : 'http://localhost:5000';
-    const newSocket = io(socketUrl);
-    setSocket(newSocket);
+  // useEffect(() => {
+  //   const socketUrl = process.env.NODE_ENV === 'production' 
+  //     ? window.location.origin 
+  //     :  import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000';
+  //   const newSocket = io(socketUrl);
+  //   setSocket(newSocket);
 
-    return () => newSocket.close();
-  }, []);
+  //   return () => newSocket.close();
+  // }, []);
+
+useEffect(() => {
+  const socketUrl = import.meta.env.VITE_BASE_URL || "http://localhost:5000";
+
+  const newSocket = io(socketUrl, {
+    transports: ["websocket"],
+  });
+
+  setSocket(newSocket);
+
+  return () => newSocket.disconnect();
+}, []);
+
 
   useEffect(() => {
     if (!socket) return;

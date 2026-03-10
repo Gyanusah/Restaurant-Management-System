@@ -45,7 +45,7 @@ const CustomerOrderHistory = () => {
   }, [searchParams, navigate]);
 
   const setupSocket = (tableNum) => {
-    const socket = io('http://localhost:5000');
+    const socket = io(import.meta.env.VITE_API_BASE_URL) || ('http://localhost:5000');
     
     socket.on('connect', () => {
       console.log('Customer connected to socket server');
