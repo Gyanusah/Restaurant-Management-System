@@ -7,7 +7,10 @@ const useOrderTracking = (tableId, userRole) => {
   const [isConnected, setIsConnected] = useState(false);
 
   useEffect(() => {
-    const newSocket = io('http://localhost:5000');
+    const socketUrl = process.env.NODE_ENV === 'production'
+      ? window.location.origin
+      : 'http://localhost:5000';
+    const newSocket = io(socketUrl);
     setSocket(newSocket);
 
     return () => newSocket.close();
@@ -19,7 +22,7 @@ const useOrderTracking = (tableId, userRole) => {
     const handleConnect = () => {
       console.log('Connected to WebSocket');
       setIsConnected(true);
-      
+
       // Join appropriate room based on user role
       if (tableId) {
         socket.emit('joinTable', tableId);
@@ -46,7 +49,7 @@ const useOrderTracking = (tableId, userRole) => {
 
   const updateOrderStatus = useCallback((orderId, newStatus) => {
     if (!socket || !isConnected) return;
-    
+
     socket.emit('updateOrderStatus', {
       orderId,
       status: newStatus
