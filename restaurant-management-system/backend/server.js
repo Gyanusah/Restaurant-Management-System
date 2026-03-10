@@ -95,12 +95,12 @@ setTimeout(() => {
 // Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutes);
-app.use('/api/orders', orderRoutes);
+app.use('/orders', orderRoutes);
 app.use('/api/menu', menuRoutes);
 app.use('/api/categories', categoryRoutes);
-app.use('/api/tables', tableRoutes);
-app.use('/api/reviews', reviewRoutes);
-app.use('/api/raw-materials', rawMaterialRoutes);
+app.use('/tables', tableRoutes);
+app.use('/reviews', reviewRoutes);
+app.use('/raw-materials', rawMaterialRoutes);
 
 // Test route to verify server is working
 app.get('/api/test', (req, res) => {
