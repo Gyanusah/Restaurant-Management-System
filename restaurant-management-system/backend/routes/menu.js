@@ -8,6 +8,7 @@ import {
 } from '../controllers/menuController.js';
 import MenuItem from '../models/MenuItem.js';
 import { verifyToken, authorizeRole } from '../middleware/auth.js';
+import mongoose from 'mongoose';
 
 const router = express.Router();
 
@@ -16,6 +17,18 @@ const router = express.Router();
 // @access  Public
 router.get('/featured', async (req, res) => {
   try {
+    console.log('📋 Fetching featured menu items...');
+    console.log('Database connection state:', mongoose.connection.readyState);
+
+    // Check database connection
+    if (mongoose.connection.readyState !== 1) {
+      console.error('❌ Database not connected');
+      return res.status(500).json({
+        message: 'Database connection error',
+        error: 'Unable to connect to database'
+      });
+    }
+
     const limit = parseInt(req.query.limit) || 4;
     const items = await MenuItem.find({
       isFeatured: true,
@@ -24,10 +37,24 @@ router.get('/featured', async (req, res) => {
       .limit(limit)
       .sort({ createdAt: -1 });
 
+    console.log(`✅ Found ${items.length} featured items`);
     res.json(items);
   } catch (err) {
-    console.error('Error fetching featured items:', err.message);
-    res.status(500).json({ message: 'Server Error' });
+    console.error('❌ Error fetching featured items:', err.message);
+    console.error('Full error:', err);
+
+    // Handle specific errors
+    if (err.name === 'MongoNetworkError' || err.name === 'MongoTimeoutError') {
+      return res.status(503).json({
+        message: 'Database connection error',
+        error: 'Unable to connect to database'
+      });
+    }
+
+    res.status(500).json({
+      message: 'Failed to fetch featured items',
+      error: process.env.NODE_ENV === 'production' ? 'Internal server error' : err.message
+    });
   }
 });
 
