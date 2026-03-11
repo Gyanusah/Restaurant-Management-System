@@ -5,6 +5,7 @@ const BASE_URL = process.env.TEST_URL || 'http://localhost:5000';
 
 const testEndpoints = [
   { path: '/test', description: 'Main server test' },
+  { path: '/health', description: 'Simple health check (no DB)' },
   { path: '/api/menu/health', description: 'Menu health check' },
   { path: '/api/menu', description: 'Get all menu items' },
   { path: '/api/menu/categories', description: 'Get menu categories' },

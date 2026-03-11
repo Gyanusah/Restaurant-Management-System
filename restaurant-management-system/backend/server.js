@@ -19,6 +19,25 @@ dotenv.config();
 
 const app = express();
 
+// Validate critical environment variables on startup
+console.log('🔍 ENVIRONMENT VARIABLE CHECK');
+console.log('NODE_ENV:', process.env.NODE_ENV);
+console.log('PORT:', process.env.PORT);
+console.log('MONGODB_URI exists:', !!process.env.MONGODB_URI);
+console.log('JWT_SECRET exists:', !!process.env.JWT_SECRET);
+
+if (!process.env.MONGODB_URI) {
+    console.error('❌ CRITICAL: MONGODB_URI is not set!');
+    console.error('Please set MONGODB_URI in your environment variables');
+    process.exit(1);
+}
+
+if (!process.env.JWT_SECRET) {
+    console.error('❌ CRITICAL: JWT_SECRET is not set!');
+    console.error('Please set JWT_SECRET in your environment variables');
+    process.exit(1);
+}
+
 // Request logging middleware
 app.use((req, res, next) => {
     console.log('=== INCOMING REQUEST ===');
@@ -114,7 +133,28 @@ app.get('/test', (req, res) => {
 
 // Health Check
 app.get('/', (req, res) => {
-    res.status(200).json({ message: 'Server is running' });
+    res.status(200).json({
+        message: 'Server is running',
+        timestamp: new Date().toISOString(),
+        environment: process.env.NODE_ENV,
+        routes: ['api/auth', 'api/users', 'api/orders', 'api/menu', 'api/categories', 'api/tables', 'api/reviews', 'api/raw-materials']
+    });
+});
+
+// Simple health check without database dependency
+app.get('/health', (req, res) => {
+    console.log('=== HEALTH CHECK REQUEST ===');
+    res.status(200).json({
+        message: 'Backend server is healthy',
+        timestamp: new Date().toISOString(),
+        environment: process.env.NODE_ENV,
+        mongodb: {
+            connected: mongoose.connection.readyState === 1,
+            state: mongoose.connection.readyState
+        },
+        memory: process.memoryUsage(),
+        uptime: process.uptime()
+    });
 });
 
 // Simple health check without CORS
@@ -156,16 +196,27 @@ app.use((req, res, next) => {
 
 // Error Handling Middleware
 app.use((err, req, res, next) => {
-    console.error('⚠️  Server Error:', err.message);
+    console.error('⚠️ SERVER ERROR MIDDLEWARE TRIGGERED');
+    console.error('Error Message:', err.message);
     console.error('Error Stack:', err.stack);
-    console.error('Request:', req.method, req.path);
-    console.error('Body:', req.body);
+    console.error('Request Details:');
+    console.error('  Method:', req.method);
+    console.error('  URL:', req.url);
+    console.error('  Path:', req.path);
+    console.error('  Headers:', req.headers);
+    console.error('  Body:', req.body);
+    console.error('  Environment:', {
+        NODE_ENV: process.env.NODE_ENV,
+        MONGODB_URI: process.env.MONGODB_URI ? 'SET' : 'NOT_SET',
+        JWT_SECRET: process.env.JWT_SECRET ? 'SET' : 'NOT_SET'
+    });
 
     res.status(err.status || 500).json({
         message: 'Internal server error',
         error: process.env.NODE_ENV === 'development' ? err.message : 'An error occurred',
         path: req.path,
         stack: process.env.NODE_ENV === 'development' ? err.stack : undefined,
+        timestamp: new Date().toISOString()
     });
 });
 
