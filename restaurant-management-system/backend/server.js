@@ -93,14 +93,14 @@ setTimeout(() => {
 }, 2000);
 
 // Routes
-app.use('/auth', authRoutes);
-app.use('/users', userRoutes);
-app.use('/orders', orderRoutes);
-app.use('/menu', menuRoutes);
-app.use('/categories', categoryRoutes);
-app.use('/tables', tableRoutes);
-app.use('/reviews', reviewRoutes);
-app.use('/raw-materials', rawMaterialRoutes);
+app.use('/api/auth', authRoutes);
+app.use('/api/users', userRoutes);
+app.use('/api/orders', orderRoutes);
+app.use('/api/menu', menuRoutes);
+app.use('/api/categories', categoryRoutes);
+app.use('/api/tables', tableRoutes);
+app.use('/api/reviews', reviewRoutes);
+app.use('/api/raw-materials', rawMaterialRoutes);
 
 // Test route to verify server is working
 app.get('/test', (req, res) => {

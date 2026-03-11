@@ -12,6 +12,16 @@ import mongoose from 'mongoose';
 
 const router = express.Router();
 
+// Add middleware to log all requests to menu routes
+router.use((req, res, next) => {
+  console.log('=== MENU ROUTE DEBUG ===');
+  console.log('Method:', req.method);
+  console.log('URL:', req.url);
+  console.log('Full path:', req.originalUrl);
+  console.log('Timestamp:', new Date().toISOString());
+  next();
+});
+
 // @route   GET /api/menu/featured
 // @desc    Get featured menu items
 // @access  Public
@@ -92,6 +102,20 @@ router.get('/categories', async (req, res) => {
 });
 
 router.get('/', getAllMenuItems);
+router.get('/health', (req, res) => {
+  console.log('🏥 Menu health check hit');
+  res.json({
+    message: 'Menu routes working',
+    timestamp: new Date().toISOString(),
+    availableRoutes: [
+      'GET /api/menu',
+      'GET /api/menu/featured',
+      'GET /api/menu/categories',
+      'GET /api/menu/favorites',
+      'GET /api/menu/:id'
+    ]
+  });
+});
 router.get('/:id', getMenuItemById);
 
 router.post('/', verifyToken, authorizeRole(['admin']), createMenuItem);

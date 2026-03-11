@@ -33,7 +33,7 @@ export const getCategories = async () => {
 export const createOrder = (data) => {
   // Create a new axios instance without auth headers for order creation
   const orderAPI = axios.create({
-    baseURL: import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000',
+    baseURL: import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000/api',
     headers: {
       'Content-Type': 'application/json'
     }
@@ -75,7 +75,7 @@ export const getOrderById = (id) => {
 
 export const customerLogin = async (credentials) => {
   try {
-    const response = await API.post('/auth/customer/login', credentials);
+    const response = await API.post('/api/auth/customer/login', credentials);
     return response.data;
   } catch (error) {
     console.error('Customer login error:', error);
