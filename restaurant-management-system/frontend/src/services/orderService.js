@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+const API_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000';
 
 // Create axios instance with default config
 const api = axios.create({
@@ -23,7 +23,7 @@ api.interceptors.request.use((config) => {
 
 export const getOrders = async () => {
   try {
-    const response = await api.get('/api/orders');
+    const response = await api.get('/orders');
     return response.data;
   } catch (error) {
     console.error('Error fetching orders:', error);
@@ -38,7 +38,7 @@ export const getOrders = async () => {
 
 export const getKitchenOrders = async () => {
   try {
-    const response = await api.get('/api/orders/kitchen');
+    const response = await api.get('/orders/kitchen');
     return response.data;
   } catch (error) {
     console.error('Error fetching kitchen orders:', error);
@@ -48,7 +48,7 @@ export const getKitchenOrders = async () => {
 
 export const getOrderById = async (orderId) => {
   try {
-    const response = await api.get(`/api/orders/${orderId}`);
+    const response = await api.get(`/orders/${orderId}`);
     return response.data;
   } catch (error) {
     console.error(`Error fetching order ${orderId}:`, error);
@@ -61,7 +61,7 @@ export const getOrder = getOrderById;
 
 export const updateOrderStatus = async (orderId, statusData) => {
   try {
-    const response = await api.put(`/api/orders/${orderId}/status`, statusData);
+    const response = await api.put(`/orders/${orderId}/status`, statusData);
     return response.data;
   } catch (error) {
     console.error(`Error updating order ${orderId} status:`, error);
@@ -71,7 +71,7 @@ export const updateOrderStatus = async (orderId, statusData) => {
 
 export const createOrder = async (orderData) => {
   try {
-    const response = await api.post('/api/orders', orderData);
+    const response = await api.post('/orders', orderData);
     return response.data;
   } catch (error) {
     console.error('Error creating order:', error);
@@ -81,7 +81,7 @@ export const createOrder = async (orderData) => {
 
 export const getOrdersByTable = async (tableNumber) => {
   try {
-    const response = await api.get(`/api/tables/${tableNumber}/orders`);
+    const response = await api.get(`/tables/${tableNumber}/orders`);
     return response.data;
   } catch (error) {
     console.error(`Error fetching orders for table ${tableNumber}:`, error);

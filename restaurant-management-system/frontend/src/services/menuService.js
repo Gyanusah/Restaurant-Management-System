@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000/api';
+const API_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000';
 
 const defaultMenuItems = [
   // Appetizers
@@ -134,7 +134,7 @@ const getImagePath = (path) => {
 
 export const getMenuItems = async () => {
   try {
-    const response = await axios.get(`${API_URL}/api/menu`);
+    const response = await axios.get(`${API_URL}/menu`);
     // Ensure each item has a valid image path
     return response.data.map(item => ({
       ...item,
@@ -222,7 +222,7 @@ export const getCategories = async () => {
   // Create a new request
   categoriesPromise = (async () => {
     try {
-      const response = await axios.get(`${API_URL}/api/menu/categories`, {
+      const response = await axios.get(`${API_URL}/menu/categories`, {
         timeout: 3000, // Shorter timeout for faster fallback
         validateStatus: status => status === 200
       });
@@ -248,7 +248,7 @@ export const getCategories = async () => {
 
 export const createOrder = async (orderData) => {
   try {
-    const response = await axios.post(`${API_URL}/api/orders`, orderData);
+    const response = await axios.post(`${API_URL}/orders`, orderData);
     return response.data;
   } catch (error) {
     console.error('Error creating order:', error);

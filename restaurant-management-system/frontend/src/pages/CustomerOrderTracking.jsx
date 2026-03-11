@@ -9,27 +9,17 @@ const useOrderTrackingInline = (tableId, userRole) => {
   const [orderStatus, setOrderStatus] = useState(null);
   const [isConnected, setIsConnected] = useState(false);
 
-  // useEffect(() => {
-  //   const socketUrl = process.env.NODE_ENV === 'production' 
-  //     ? window.location.origin 
-  //     :  import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000';
-  //   const newSocket = io(socketUrl);
-  //   setSocket(newSocket);
+  useEffect(() => {
+    const socketUrl = import.meta.env.VITE_API_BASE_URL || "http://localhost:5000";
 
-  //   return () => newSocket.close();
-  // }, []);
+    const newSocket = io(socketUrl, {
+      transports: ["websocket"],
+    });
 
-useEffect(() => {
-  const socketUrl = import.meta.env.VITE_BASE_URL || "http://localhost:5000";
+    setSocket(newSocket);
 
-  const newSocket = io(socketUrl, {
-    transports: ["websocket"],
-  });
-
-  setSocket(newSocket);
-
-  return () => newSocket.disconnect();
-}, []);
+    return () => newSocket.disconnect();
+  }, []);
 
 
   useEffect(() => {
@@ -85,7 +75,7 @@ const statusStages = [
 const CustomerOrderTracking = () => {
   const { orderId } = useParams();
   const [order, setOrder] = useState(null);
-  const { orderStatus, isConnected } = useOrderTracking(order?.table?._id, 'customer');
+  const { orderStatus, isConnected } = useOrderTrackingInline(order?.table?._id, 'customer');
 
   useEffect(() => {
     const fetchOrder = async () => {
