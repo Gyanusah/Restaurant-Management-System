@@ -2,20 +2,20 @@ import axios from 'axios';
 import API from './axios';
 
 // Auth APIs
-export const signup = (data) => API.post('/auth/signup', data);
-export const login = (data) => API.post('/auth/login', data);
+export const signup = (data) => API.post('/api/auth/signup', data);
+export const login = (data) => API.post('/api/auth/login', data);
 
 // Menu APIs
-export const getMenuItems = () => API.get('/menu');
-export const getMenuItemById = (id) => API.get(`/menu/${id}`);
-export const createMenuItem = (data) => API.post('/menu', data);
-export const updateMenuItem = (id, data) => API.put(`/menu/${id}`, data);
-export const deleteMenuItem = (id) => API.delete(`/menu/${id}`);
+export const getMenuItems = () => API.get('/api/menu');
+export const getMenuItemById = (id) => API.get(`/api/menu/${id}`);
+export const createMenuItem = (data) => API.post('/api/menu', data);
+export const updateMenuItem = (id, data) => API.put(`/api/menu/${id}`, data);
+export const deleteMenuItem = (id) => API.delete(`/api/menu/${id}`);
 
 // Categories API
 export const getCategories = async () => {
   try {
-    const response = await API.get('/menu/categories');
+    const response = await API.get('/api/menu/categories');
     // Handle both response formats: array or object with categories property
     if (Array.isArray(response.data)) {
       return response.data;
@@ -49,12 +49,12 @@ export const createOrder = (data) => {
     return config;
   });
 
-  return orderAPI.post('/orders', data);
+  return orderAPI.post('/api/orders', data);
 };
 
 export const getOrders = async () => {
   try {
-    const response = await API.get('/orders');
+    const response = await API.get('/api/orders');
     console.log('Orders API response:', response.data);
     // Backend returns { orders: [...], ... } so we need to extract the orders array
     return Array.isArray(response.data?.orders) ? response.data.orders : [];
@@ -70,7 +70,7 @@ export const getOrderById = (id) => {
     console.error('No order ID provided');
     return Promise.reject(new Error('Order ID is required'));
   }
-  return API.get(`/orders/${id}`);
+  return API.get(`/api/orders/${id}`);
 };
 
 export const customerLogin = async (credentials) => {
@@ -93,7 +93,7 @@ export const getCustomerOrdersByPhone = async (phoneNumber) => {
     console.log('Phone number:', phoneNumber);
     console.log('API URL:', `/orders/customer/by-phone/${phoneNumber}`);
 
-    const response = await API.get(`/orders/customer/by-phone/${phoneNumber}`);
+    const response = await API.get(`/api/orders/customer/by-phone/${phoneNumber}`);
     console.log('API response:', response);
     console.log('Response data:', response.data);
     console.log('Response data type:', typeof response.data);
@@ -112,7 +112,7 @@ export const getCustomerOrdersByPhone = async (phoneNumber) => {
 
 export const getCustomerOrders = async () => {
   try {
-    const response = await API.get('/orders/customer/orders');
+    const response = await API.get('/api/orders/customer/orders');
     return Array.isArray(response.data) ? response.data : [];
   } catch (error) {
     console.error('Error fetching customer orders:', error);
@@ -126,7 +126,7 @@ export const getOrdersByTable = async (tableNumber) => {
     return Promise.reject(new Error('Table number is required'));
   }
   try {
-    const response = await API.get(`/orders/table/${tableNumber}`);
+    const response = await API.get(`/api/orders/table/${tableNumber}`);
     return Array.isArray(response.data) ? response.data : [];
   } catch (error) {
     console.error('Error fetching table orders:', error);
@@ -137,7 +137,7 @@ export const getOrdersByTable = async (tableNumber) => {
 // Categories API
 export const createCategory = async (categoryData) => {
   try {
-    const response = await API.post('/categories', categoryData);
+    const response = await API.post('/api/categories', categoryData);
     return response.data;
   } catch (error) {
     console.error('Error creating category:', error);
@@ -147,7 +147,7 @@ export const createCategory = async (categoryData) => {
 
 export const updateCategory = async (id, categoryData) => {
   try {
-    const response = await API.put(`/categories/${id}`, categoryData);
+    const response = await API.put(`/api/categories/${id}`, categoryData);
     return response.data;
   } catch (error) {
     console.error('Error updating category:', error);
@@ -157,7 +157,7 @@ export const updateCategory = async (id, categoryData) => {
 
 export const deleteCategory = async (id) => {
   try {
-    const response = await API.delete(`/categories/${id}`);
+    const response = await API.delete(`/api/categories/${id}`);
     return response.data;
   } catch (error) {
     console.error('Error deleting category:', error);
@@ -168,7 +168,7 @@ export const deleteCategory = async (id) => {
 // Tables API
 export const getTables = async () => {
   try {
-    const response = await API.get('/tables');
+    const response = await API.get('/api/tables');
     return Array.isArray(response.data) ? response.data : [];
   } catch (error) {
     console.error('Error fetching tables:', error);
@@ -178,7 +178,7 @@ export const getTables = async () => {
 
 export const createTable = async (tableData) => {
   try {
-    const response = await API.post('/tables', tableData);
+    const response = await API.post('/api/tables', tableData);
     return response.data;
   } catch (error) {
     console.error('Error creating table:', error);
@@ -188,7 +188,7 @@ export const createTable = async (tableData) => {
 
 export const updateTable = async (id, tableData) => {
   try {
-    const response = await API.put(`/tables/${id}`, tableData);
+    const response = await API.put(`/api/tables/${id}`, tableData);
     return response.data;
   } catch (error) {
     console.error('Error updating table:', error);
@@ -198,7 +198,7 @@ export const updateTable = async (id, tableData) => {
 
 export const deleteTable = async (id) => {
   try {
-    const response = await API.delete(`/tables/${id}`);
+    const response = await API.delete(`/api/tables/${id}`);
     return response.data;
   } catch (error) {
     console.error('Error deleting table:', error);
@@ -209,7 +209,7 @@ export const deleteTable = async (id) => {
 // Users API
 export const getUsers = async () => {
   try {
-    const response = await API.get('/users');
+    const response = await API.get('/api/users');
     return Array.isArray(response.data) ? response.data : [];
   } catch (error) {
     console.error('Error fetching users:', error);
@@ -219,7 +219,7 @@ export const getUsers = async () => {
 
 export const createUser = async (userData) => {
   try {
-    const response = await API.post('/users', userData);
+    const response = await API.post('/api/users', userData);
     return response.data;
   } catch (error) {
     console.error('Error creating user:', error);
@@ -229,7 +229,7 @@ export const createUser = async (userData) => {
 
 export const updateUser = async (id, userData) => {
   try {
-    const response = await API.put(`/users/${id}`, userData);
+    const response = await API.put(`/api/users/${id}`, userData);
     return response.data;
   } catch (error) {
     console.error('Error updating user:', error);
@@ -239,7 +239,7 @@ export const updateUser = async (id, userData) => {
 
 export const deleteUser = async (id) => {
   try {
-    const response = await API.delete(`/users/${id}`);
+    const response = await API.delete(`/api/users/${id}`);
     return response.data;
   } catch (error) {
     console.error('Error deleting user:', error);
@@ -250,7 +250,7 @@ export const deleteUser = async (id) => {
 // Reviews API
 export const getAllReviews = async () => {
   try {
-    const response = await API.get('/reviews');
+    const response = await API.get('/api/reviews');
     return Array.isArray(response.data) ? response.data : [];
   } catch (error) {
     console.error('Error fetching all reviews:', error);
@@ -260,7 +260,7 @@ export const getAllReviews = async () => {
 
 export const createReview = async (reviewData) => {
   try {
-    const response = await API.post('/reviews', reviewData);
+    const response = await API.post('/api/reviews', reviewData);
     return response.data;
   } catch (error) {
     console.error('Error creating review:', error);
@@ -270,7 +270,7 @@ export const createReview = async (reviewData) => {
 
 export const getCustomerReviews = async (customerId) => {
   try {
-    const response = await API.get(`/reviews/customer/${customerId}`);
+    const response = await API.get(`/api/reviews/customer/${customerId}`);
     return Array.isArray(response.data) ? response.data : [];
   } catch (error) {
     console.error('Error fetching customer reviews:', error);
@@ -280,7 +280,7 @@ export const getCustomerReviews = async (customerId) => {
 
 export const getReviewsByCustomerPhone = async (phoneNumber) => {
   try {
-    const response = await API.get(`/reviews/customer/phone/${phoneNumber}`);
+    const response = await API.get(`/api/reviews/customer/phone/${phoneNumber}`);
     return Array.isArray(response.data) ? response.data : [];
   } catch (error) {
     console.error('Error fetching reviews by phone:', error);
@@ -290,7 +290,7 @@ export const getReviewsByCustomerPhone = async (phoneNumber) => {
 
 export const updateReview = async (id, reviewData) => {
   try {
-    const response = await API.put(`/reviews/${id}`, reviewData);
+    const response = await API.put(`/api/reviews/${id}`, reviewData);
     return response.data;
   } catch (error) {
     console.error('Error updating review:', error);
@@ -300,7 +300,7 @@ export const updateReview = async (id, reviewData) => {
 
 export const deleteReview = async (id) => {
   try {
-    const response = await API.delete(`/reviews/${id}`);
+    const response = await API.delete(`/api/reviews/${id}`);
     return response.data;
   } catch (error) {
     console.error('Error deleting review:', error);
@@ -310,7 +310,7 @@ export const deleteReview = async (id) => {
 
 export const getReviewStats = async () => {
   try {
-    const response = await API.get('/reviews/stats');
+    const response = await API.get('/api/reviews/stats');
     return response.data;
   } catch (error) {
     console.error('Error fetching review stats:', error);
@@ -320,7 +320,7 @@ export const getReviewStats = async () => {
 
 export const getFeaturedMenuItems = async () => {
   try {
-    const response = await API.get('/menu/featured');
+    const response = await API.get('/api/menu/featured');
     return Array.isArray(response.data) ? response.data : [];
   } catch (error) {
     console.error('Error fetching featured items:', error);
@@ -330,7 +330,7 @@ export const getFeaturedMenuItems = async () => {
 
 export const getFavoriteMenuItems = async () => {
   try {
-    const response = await API.get('/menu/favorites');
+    const response = await API.get('/api/menu/favorites');
     return Array.isArray(response.data) ? response.data : [];
   } catch (error) {
     console.error('Error fetching favorite items:', error);
@@ -342,7 +342,7 @@ export const getFavoriteMenuItems = async () => {
 export const getRawMaterials = async (params = {}) => {
   try {
     const queryString = new URLSearchParams(params).toString();
-    const response = await API.get(`/raw-materials?${queryString}`);
+    const response = await API.get(`/api/raw-materials?${queryString}`);
     return response.data;
   } catch (error) {
     console.error('Error fetching raw materials:', error);
@@ -352,7 +352,7 @@ export const getRawMaterials = async (params = {}) => {
 
 export const getRawMaterialById = async (id) => {
   try {
-    const response = await API.get(`/raw-materials/${id}`);
+    const response = await API.get(`/api/raw-materials/${id}`);
     return response.data;
   } catch (error) {
     console.error('Error fetching raw material:', error);
@@ -362,7 +362,7 @@ export const getRawMaterialById = async (id) => {
 
 export const createRawMaterial = async (data) => {
   try {
-    const response = await API.post('/raw-materials', data);
+    const response = await API.post('/api/raw-materials', data);
     return response.data;
   } catch (error) {
     console.error('Error creating raw material:', error);
@@ -372,7 +372,7 @@ export const createRawMaterial = async (data) => {
 
 export const updateRawMaterial = async (id, data) => {
   try {
-    const response = await API.put(`/raw-materials/${id}`, data);
+    const response = await API.put(`/api/raw-materials/${id}`, data);
     return response.data;
   } catch (error) {
     console.error('Error updating raw material:', error);
@@ -382,7 +382,7 @@ export const updateRawMaterial = async (id, data) => {
 
 export const deleteRawMaterial = async (id) => {
   try {
-    const response = await API.delete(`/raw-materials/${id}`);
+    const response = await API.delete(`/api/raw-materials/${id}`);
     return response.data;
   } catch (error) {
     console.error('Error deleting raw material:', error);
@@ -392,7 +392,7 @@ export const deleteRawMaterial = async (id) => {
 
 export const updateRawMaterialStock = async (id, data) => {
   try {
-    const response = await API.patch(`/raw-materials/${id}/stock`, data);
+    const response = await API.patch(`/api/raw-materials/${id}/stock`, data);
     return response.data;
   } catch (error) {
     console.error('Error updating raw material stock:', error);
@@ -402,7 +402,7 @@ export const updateRawMaterialStock = async (id, data) => {
 
 export const getRawMaterialStatistics = async () => {
   try {
-    const response = await API.get('/raw-materials/statistics');
+    const response = await API.get('/api/raw-materials/statistics');
     return response.data;
   } catch (error) {
     console.error('Error fetching raw material statistics:', error);
@@ -412,7 +412,7 @@ export const getRawMaterialStatistics = async () => {
 
 export const getLowStockAlerts = async () => {
   try {
-    const response = await API.get('/raw-materials/alerts');
+    const response = await API.get('/api/raw-materials/alerts');
     return response.data;
   } catch (error) {
     console.error('Error fetching low stock alerts:', error);
