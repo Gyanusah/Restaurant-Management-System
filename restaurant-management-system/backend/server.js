@@ -220,27 +220,27 @@ app.use((err, req, res, next) => {
     });
 });
 
-const PORT = process.env.PORT || 5000;
+//const PORT = process.env.PORT || 5000;
 
-const server = app.listen(PORT, () => {
-    console.log(`\n✅ Server running on port ${PORT}`);
-    console.log(`📍 Environment: ${process.env.NODE_ENV}`);
-    console.log(`🏥 Health Check: http://localhost:${PORT}/api/health`);
-    console.log(`💾 DB Status: http://localhost:${PORT}/api/db-status`);
-    console.log('\nWaiting for MongoDB connection...\n');
+// const server = app.listen(PORT, () => {
+//     console.log(`\n✅ Server running on port ${PORT}`);
+//     console.log(`📍 Environment: ${process.env.NODE_ENV}`);
+//     console.log(`🏥 Health Check: http://localhost:${PORT}/api/health`);
+//     console.log(`💾 DB Status: http://localhost:${PORT}/api/db-status`);
+//     console.log('\nWaiting for MongoDB connection...\n');
 
-    // Initialize Socket.io
-    init(server);
-    console.log('🔌 Socket.io initialized');
-});
+//     // Initialize Socket.io
+//     init(server);
+//     console.log('🔌 Socket.io initialized');
+// });
 
-//Handle server errors
-server.on('error', (err) => {
-    console.error('🔴 Server error:', err);
-    if (err.code === 'EADDRINUSE') {
-        console.error(`❌ Port ${PORT} is already in use`);
-        console.error('Try changing PORT in .env file or kill the process using that port');
-    }
-});
+// //Handle server errors
+// server.on('error', (err) => {
+//     console.error('🔴 Server error:', err);
+//     if (err.code === 'EADDRINUSE') {
+//         console.error(`❌ Port ${PORT} is already in use`);
+//         console.error('Try changing PORT in .env file or kill the process using that port');
+//     }
+// });
 
 export default app;
