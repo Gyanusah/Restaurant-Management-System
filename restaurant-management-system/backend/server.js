@@ -137,7 +137,7 @@ app.get('/', (req, res) => {
         message: 'Server is running',
         timestamp: new Date().toISOString(),
         environment: process.env.NODE_ENV,
-        routes: ['api/auth', 'api/users', 'api/orders', 'api/menu', 'api/categories', 'api/tables', 'api/reviews', 'api/raw-materials']
+        routes: ['/auth', '/users', '/orders', '/menu', '/categories', '/tables', '/reviews', '/raw-materials']
     });
 });
 

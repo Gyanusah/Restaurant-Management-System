@@ -108,11 +108,11 @@ router.get('/health', (req, res) => {
     message: 'Menu routes working',
     timestamp: new Date().toISOString(),
     availableRoutes: [
-      'GET /api/menu',
-      'GET /api/menu/featured',
-      'GET /api/menu/categories',
-      'GET /api/menu/favorites',
-      'GET /api/menu/:id'
+      'GET /menu',
+      'GET /menu/featured',
+      'GET /menu/categories',
+      'GET /menu/favorites',
+      'GET /menu/:id'
     ]
   });
 });

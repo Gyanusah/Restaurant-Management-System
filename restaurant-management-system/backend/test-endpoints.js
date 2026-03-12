@@ -6,10 +6,10 @@ const BASE_URL = process.env.TEST_URL || 'http://localhost:5000';
 const testEndpoints = [
   { path: '/test', description: 'Main server test' },
   { path: '/health', description: 'Simple health check (no DB)' },
-  { path: '/api/menu/health', description: 'Menu health check' },
-  { path: '/api/menu', description: 'Get all menu items' },
-  { path: '/api/menu/categories', description: 'Get menu categories' },
-  { path: '/api/menu/featured', description: 'Get featured items' },
+  { path: '/menu/health', description: 'Menu health check' },
+  { path: '/menu', description: 'Get all menu items' },
+  { path: '/menu/categories', description: 'Get menu categories' },
+  { path: '/menu/featured', description: 'Get featured items' },
 ];
 
 async function runTests() {
